@@ -21,8 +21,8 @@ router.get('/users', async (req, res) => {
 })
 router.put('/users/:id', async (req, res) => {
     try {
-        await userLogic.updateUser({ id: req.params.id, name: req.body.name, phone: req.body.phone })
-        res.send('updated')
+        res.send(await userLogic.updateUser({ id: req.params.id, name: req.body.name, phone: req.body.phone }))
+
     } catch (error) {
         res.send({ message: error.message || "something wrong :(" })
     }
@@ -30,8 +30,8 @@ router.put('/users/:id', async (req, res) => {
 })
 router.delete('/users/:id', async (req, res) => {
     try {
-        await userLogic.deleteUser({ id: req.params.id })
-        res.send('removed')
+        res.send(await userLogic.deleteUser({ id: req.params.id }))
+
     } catch (error) {
         res.send({ message: error.message || "something wrong :(" })
     }

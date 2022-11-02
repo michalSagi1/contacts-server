@@ -1,33 +1,38 @@
 const User = require("./model")
 
+//creat new user
 const createUser = async ({ name, phone }) => {
-    if (!name) throw { message: "name is required" }
-    if (!phone) throw { message: "phone is required" }
+    if (!name) throw { message: "שם הוא שדה חובה" }
+    if (!phone) throw { message: "טלפון הוא שדה חובה" }
     const user = await User.findOne({ where: { username: name, isActive: 1 } })
     if (user) {
-        throw { message: "this name is exsit" }
+        throw { message: "שם זה כבר קיים" }
     }
-    await User.create({ username: name, phone, isActive: 1 })
-    return ("user created")
+    return (await User.create({ username: name, phone, isActive: 1 }))
 
 }
+
+//get users list
 const getUsers = async () => {
     const users = await User.findAll({ where: { isActive: 1 } })
     return users
 
 }
+
+//edit user
 const updateUser = async ({ id, name, phone }) => {
     const user = await User.findOne({ where: { id } })
-    const exsistuser = await User.findOne({ where: { username: name, isActive: 1 } })
-    if (exsistuser) {
-        throw { message: "this name is exsit" }
-    }
+    if (!name) throw { message: "שם הוא שדה חובה" }
+    if (!phone) throw { message: "טלפון הוא שדה חובה" }
+
     user.username = name;
     user.phone = phone
     await user.save();
     return user
 
 }
+
+//remove user
 const deleteUser = async ({ id }) => {
     const user = await User.findOne({ where: { id } })
     console.log(user);
